@@ -46,7 +46,9 @@ class FavouriteViewController: UITableViewController{
         let lblName = cell.viewWithTag(100) as! UILabel
         let lblDOB = cell.viewWithTag(101) as!UILabel
         let lblPhone = cell.viewWithTag(102) as! UILabel
+      //  let lblEmail = cell.viewWithTag(103) as! UILabel
         let lblEmail = cell.viewWithTag(103) as! UILabel
+
         let lblAddress = cell.viewWithTag(104) as! UILabel
         let imgProfile = cell.viewWithTag(105) as! UIImageView
         
@@ -60,6 +62,8 @@ class FavouriteViewController: UITableViewController{
             
             lblPhone.text = favourite[indexPath.row].results[0].user.phone
             lblEmail.text = favourite[indexPath.row].results[0].user.email
+            //lblEmail.text = "PALAK.MOURYA@CAPILLAYTHJBGBUIJKBIUHIUNIUGUIFUHVHBYUFUYBBUGUIFUYECH.COM"
+
             lblAddress.text = "\(favourite[indexPath.row].results[0].user.location.street), \(favourite[indexPath.row].results[0].user.location.city)"
             
             
