@@ -14,12 +14,11 @@ class FavouriteViewController: UITableViewController{
     let cachedImage = AutoPurgingImageCache(memoryCapacity: 100_000_000, preferredMemoryUsageAfterPurge: 60_000_000)
     
     var favourite: [UserData]?
-    let userDefaultHelper = UserDefaults.standard
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        if let data = userDefaultHelper.array(forKey: "Favourites") as? Data{
+        if let data = UserDefaults.standard.value(forKey: "Favourites") as? Data{
             
             favourite = try? PropertyListDecoder().decode([UserData].self, from: data)
             

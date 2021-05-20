@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var imgPlaceholder: UIImageView!
     
     @IBOutlet weak var segmentValue: UISegmentedControl!
+    let defaults = UserDefaults.standard
     var favourites: [UserData] = []
     var aView :UIView?
     var name: String = ""
@@ -24,11 +25,15 @@ class ViewController: UIViewController {
     var phone: String = ""
     var dob: String = ""
     
-    let userDefaultHelper = UserDefaults.standard
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
+        if let data = UserDefaults.standard.value(forKey: "Favourites") as? Data{
+            
+            favourites = try! PropertyListDecoder().decode([UserData].self, from: data)
+            
+        }
         
         myView.backgroundColor = .white
         lblDescription.textColor = .black
@@ -121,7 +126,7 @@ class ViewController: UIViewController {
                 showData()
                 showIndicator()
                 favourites.append(response!)
-                userDefaultHelper.set(try? PropertyListEncoder().encode(favourites), forKey: "Favourites")
+                defaults.set(try? PropertyListEncoder().encode(favourites), forKey: "Favourites")
                // saveData()
                 
             }
@@ -258,16 +263,16 @@ class ViewController: UIViewController {
     }
     
     //On clicking my favourite, data pass to new view controller
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        print("segue called")
-        
-        if segue.identifier == "showFavourite"{
-            
-            let controller = segue.destination as! FavouriteViewController
-            controller.favourite = favourites
-        }
-    }
-    
+//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+//        print("segue called")
+//
+//        if segue.identifier == "showFavourite"{
+//
+//            let controller = segue.destination as! FavouriteViewController
+//            //controller.favourite = favourites
+//        }
+//    }
+//
     //    func removeIndicator(){
     //
     //            print("remove indicator")
