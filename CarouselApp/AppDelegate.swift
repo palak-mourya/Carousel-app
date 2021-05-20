@@ -32,19 +32,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     }
     
     func applicationWillTerminate(_ application: UIApplication) {
-        saveFavourites()
+//        saveFavourites()
     }
 
-    func saveFavourites(){
-        
-        let navigationController = window!.rootViewController as! UINavigationController
-        
-        let controller = navigationController.viewControllers[0] as! ViewController
-        
-        controller.saveData()
-        
-        
-    }
+//    func saveFavourites(){
+//
+//        let navigationController = window!.rootViewController as! UINavigationController
+//
+//        let controller = navigationController.viewControllers[0] as! ViewController
+//
+//        controller.saveData()
+//
+//
+//    }
 
 }
 

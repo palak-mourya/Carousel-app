@@ -24,18 +24,21 @@ class ViewController: UIViewController {
     var phone: String = ""
     var dob: String = ""
     
+    let userDefaultHelper = UserDefaults.standard
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
+        
         myView.backgroundColor = .white
         lblDescription.textColor = .black
         imgPlaceholder.layer.cornerRadius = imgPlaceholder.frame.size.width/2
-        self.showData()
+        showData()
         showIndicator()
-        print("The document folder path is \(documentDirectoryPath())")
-        print("The favourite folder path is \(dataFilePath())")
-        loadData()
-        
+//        print("The document folder path is \(documentDirectoryPath())")
+//        print("The favourite folder path is \(dataFilePath())")
+//        loadData()
+//
         //        let left = UISwipeGestureRecognizer(target: self, action: #selector(showData))
         //        left.direction = .left
         //        self.myView.addGestureRecognizer(left)
@@ -47,54 +50,54 @@ class ViewController: UIViewController {
     }
     
     // getting the document directory path
-    func documentDirectoryPath()-> URL{
-        
-        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return path[0]
-    }
+//    func documentDirectoryPath()-> URL{
+//
+//        let path = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
+//        return path[0]
+//    }
     
     // appending plist file path
-    func dataFilePath()-> URL{
-        
-        return documentDirectoryPath().appendingPathComponent("Favourite.plist")
-    }
+//    func dataFilePath()-> URL{
+//
+//        return documentDirectoryPath().appendingPathComponent("Favourite.plist")
+//    }
     
     // save data to user default
-    func saveData(){
-        
-        print("save data called")
-        
-        let encoder = PropertyListEncoder()
-        
-        do{
-            let data = try encoder.encode(favourites)
-            try data.write(to: dataFilePath(), options: .atomic)
-            
-        }
-        catch{
-            print("Error while encoding is \(error)")
-        }
-        
-    }
+//    func saveData(){
+//
+//        print("save data called")
+//
+//        let encoder = PropertyListEncoder()
+//
+//        do{
+//            let data = try encoder.encode(favourites)
+//            try data.write(to: dataFilePath(), options: .atomic)
+//
+//        }
+//        catch{
+//            print("Error while encoding is \(error)")
+//        }
+//
+//    }
     
     // get data from user default
-    func loadData(){
-        
-        let path = dataFilePath()
-        
-        if let data = try? Data(contentsOf: path){
-            
-            let decoder = PropertyListDecoder()
-            do{
-                favourites = try decoder.decode([UserData].self, from: data)
-                print(favourites)
-            }
-            catch{
-                print("Error while loading data is \(error)")
-            }
-        }
-        
-    }
+//    func loadData(){
+//
+//        let path = dataFilePath()
+//
+//        if let data = try? Data(contentsOf: path){
+//
+//            let decoder = PropertyListDecoder()
+//            do{
+//                favourites = try decoder.decode([UserData].self, from: data)
+//                print(favourites)
+//            }
+//            catch{
+//                print("Error while loading data is \(error)")
+//            }
+//        }
+//
+//    }
     
     
     // swipe left and right for new content
@@ -118,7 +121,8 @@ class ViewController: UIViewController {
                 showData()
                 showIndicator()
                 favourites.append(response!)
-                saveData()
+                userDefaultHelper.set(try? PropertyListEncoder().encode(favourites), forKey: "Favourites")
+               // saveData()
                 
             }
             else if card.center.x < 0{
@@ -182,57 +186,6 @@ class ViewController: UIViewController {
         }
         
     }
-    
-    //    @IBAction func btnProfile(_ sender: UIButton) {
-    //
-    //        setData(result: response!)
-    //
-    //    }
-    //    @IBAction func btnContact(_ sender: UIButton) {
-    //
-    //        lblTitle.text = "My phone number is"
-    //        lblDescription.text = response!.results[0].user.phone
-    //    }
-    //
-    //    @IBAction func btnDOB(_ sender: UIButton) {
-    //
-    //        lblTitle.text = "My birthdate is"
-    //        let date = Date(timeIntervalSince1970: Double(response!.results[0].user.dob)!)
-    //        let myFormatter = DateFormatter()
-    //        myFormatter.dateStyle = .long
-    //        lblDescription.text = "\(myFormatter.string(from: date))"
-    //
-    //    }
-    //
-    //    @IBAction func btnEmail(_ sender: UIButton) {
-    //
-    //        lblTitle.text = "My email address is"
-    //        lblDescription.text = response!.results[0].user.email
-    //
-    //    }
-    //    func setData(result: UserData){
-    //
-    //        lblTitle.text = "Hi, My name is"
-    //        lblDescription.text = String("\(result.results[0].user.name.title) \(result.results[0].user.name.fname)  \(result.results[0].user.name.lname)")
-    //        //imgPlaceholder.image = UIImage(
-    //        //result.results[0].user.picture
-    //
-    //        let imageURL = URL(string: result.results[0].user.picture)!
-    //
-    //        URLSession.shared.downloadTask(with: imageURL) { (url, response, error) in
-    //
-    //            if error == nil, let url = url, let data = try? Data(contentsOf: url),
-    //               let image = UIImage(data: data){
-    //
-    //                DispatchQueue.main.async {
-    //                    self.imgPlaceholder.image = image
-    //                }
-    //            }
-    //
-    //        }.resume()
-    //
-    //    }
-    
     
     // setting data after getting repsonse from API
     func setData(result: UserData){
